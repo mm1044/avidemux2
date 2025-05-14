@@ -1,3 +1,5 @@
+# .github/workflows/ci.yml
+
 name: CI
 on: [pull_request, push]
 
@@ -6,9 +8,9 @@ jobs:
 #    name: Build (Linux)
     strategy:
       matrix:
-#        os: [ubuntu-24.04]
-        os: [ubuntu-22.04, ubuntu-24.04]
-      fail-fast: false
+        os: [ubuntu-24.04]
+#        os: [ubuntu-22.04, ubuntu-24.04]
+#      fail-fast: false
     runs-on: ${{matrix.os}}
     steps:
       - name: lsla 1
@@ -35,32 +37,43 @@ jobs:
           path: |
             build*
             install
-          key: build-${{matrix.os}}-qt4-${{github.sha}}
+          key: build-${{matrix.os}}-qt6-${{github.sha}}
           restore-keys: |
-            build-${{matrix.os}}-qt4-
+            build-${{matrix.os}}-qt6-
       - name: lsla 3 after cache
         run: pwd && ls -la .. && ls -la
       - name: Build
 # --enable-qt5 : downgrade from default qt6.
 # --rebuild
+# 22.04 (qt4) and 24.04 (qt4):
+#    buildQt4:Cmake started...
+# ** Failed at cmake,result in /tmp/logCmakebuildQt4 **
 # 22.04 (qt5) and 24.04 (qt5):
 #     buildQt5:Cmake started...
 # ** Failed at cmake,result in /tmp/logCmakebuildQt5 **
 # 22.04 (qt6):
 #    buildQt6:Build started...
 # ** Failed at make -j 4, result in /tmp/logbuildQt6 **
-        run: bash bootStrap.bash --enable-qt4
+        run: bash bootStrap.bash
            # --with-system-libass
 # New, "in-tree": buildCli, buildCore, buildPluginsCLI, buildPluginsCommon, buildPluginsQt6, buildPluginsSettings, buildQt6, install.
       - name: lsla 4
         run: pwd && ls -la .. && ls -la && ls -laR install/
+# On Trisquel 11.0.1:
+# $ ./run_avidemux_template_qt6.sh
+# .../avidemux2-dev/install/usr/bin/avidemux3_qt6: error while loading shared libraries: libQt6OpenGLWidgets.so.6: cannot open shared object file: No such file or directory
+# Fichier absent:
+# $ find /usr/lib* -iname "libQt6O*"
+# /usr/lib/x86_64-linux-gnu/libQt6OpenGL.so.6.2.4
+# /usr/lib/x86_64-linux-gnu/libQt6OpenGL.so.6
       - name: Upload compiled binaries
         uses: actions/upload-artifact@v4
         with:
-          name: avidemux2-usr-${{matrix.os}}-qt4-${{github.sha}}
+          name: avidemux2-install-${{matrix.os}}-qt6-${{github.sha}}
           path: |
-            install/usr
-            !install/usr/include
+            install/
+            !install/usr/include/
+            install/usr/include/avidemux/*.*/ADM_coreConfig.h
       - name: Create an (qt6) appImage for Debian 12/BW and Ubuntu 22.04/JJ
         if: false
 # --rebuild
