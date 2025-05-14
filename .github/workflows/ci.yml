@@ -22,7 +22,7 @@ jobs:
           submodules: recursive
 # will need to clone avidemux2_i18n, instead.
           repository: mean00/avidemux2
-          ref: 34667ad7467e34f25e5707f01813b36c29063189
+          ref: master
       - name: lsla 2
         run: pwd && ls -la .. && ls -la
       - name: Install build dependencies
