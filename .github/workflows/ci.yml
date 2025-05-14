@@ -45,28 +45,5 @@ jobs:
 # New, "in-tree": buildCli, buildCore, buildPluginsCLI, buildPluginsCommon, buildPluginsQt6, buildPluginsSettings, buildQt6, install.
       - name: lsla 4
         run: pwd && ls -la .. && ls -la && ls -laR install/
-      - name: Upload compiled binaries
-        uses: actions/upload-artifact@v4
-        with:
-          name: avidemux2-usr-${{github.sha}}
-          path: |
-            install/usr
-            !install/usr/include
-      - name: Create an (qt6) appImage for Debian 12/BW and Ubuntu 22.04/JJ
-        if: false
-# --rebuild
-        run: |
-          chmod u+x ./makeAppImageBookwormMinimal.sh
-          ./makeAppImageBookwormMinimal.sh
-      - name: lsla 5
-        run: pwd && ls -la .. && ls -la && ls -laR install/
-    - name: Upload appImage
-      if: false
-      uses: actions/upload-artifact@v4
-      with:
-        name: avidemux2-${{github.sha}}.appImage
-        path: |
-          build/bootcd.iso
-          build/livecd.iso
 
 # Ajouter un cache, voire l'option rebuild !?
