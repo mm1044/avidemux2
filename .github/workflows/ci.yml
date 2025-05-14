@@ -6,28 +6,29 @@ jobs:
 #    name: Build (Linux)
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-24.04]
+#        os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ${{matrix.os}}
     steps:
       - name: lsla 1
-        run: ls -la
+        run: pwd && ls -la
       - name: Source checkout
         uses: actions/checkout@v4 
         with:
-          path: avidemux2
-          submodules: recursive
+#          path: avidemux2
+#          submodules: recursive
       - name: lsla 2
-        run: ls -la
+        run: pwd && ls -la
       - name: Change to source directory
         run: cd avidemux2
       - name: lsla 3
-        run: ls -la
+        run: pwd && ls -la
       - name: Install build dependencies
         run: bash createDebFromSourceUbuntu.bash --deps-only
       - name: lsla 4
-        run: ls -la
+        run: pwd && ls -la
       - name: Build
         run: bash bootStrap.bash
            # --with-system-libass
       - name: lsla 5
-        run: ls -la
+        run: pwd && ls -la
