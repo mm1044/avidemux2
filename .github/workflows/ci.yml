@@ -37,6 +37,8 @@ jobs:
           key: build-${{matrix.os}}-${{github.sha}}
           restore-keys: |
             build-
+      - name: lsla 3 after cache
+        run: pwd && ls -la .. && ls -la
       - name: Build
 # --enable-qt5 : downgrade from default qt6.
 # --rebuild
@@ -55,12 +57,13 @@ jobs:
       - name: Create an (qt6) appImage for Debian 12/BW and Ubuntu 22.04/JJ
         if: false
 # --rebuild
+# "cp: cannot stat '/usr/lib/x86_64-linux-gnu/libvpx.so.7': No such file or directory"
+# 24.04 has libvpx.so.9, not expected libvpx.so.7.
         run: |
           chmod u+x ./makeAppImageBookwormMinimal.sh
-# cp: cannot stat '/usr/lib/x86_64-linux-gnu/libvpx.so.7': No such file or directory
-# 24.04 has libvpx.so.9, not expected libvpx.so.7.
           ./makeAppImageBookwormMinimal.sh
       - name: lsla 5
+        if: false
         run: pwd && ls -la .. && ls -la && ls -laR install/
       - name: Upload appImage
         if: false
