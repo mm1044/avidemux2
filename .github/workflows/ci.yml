@@ -11,24 +11,26 @@ jobs:
     runs-on: ${{matrix.os}}
     steps:
       - name: lsla 1
+# /home/runner/work/avidemux2/avidemux2
         run: pwd && ls -la .. && ls -la
       - name: Source checkout
         uses: actions/checkout@v4 
-#        with:
+        with:
 #          path: avidemux2
-#          submodules: recursive
+          submodules: recursive
       - name: lsla 2
-        run: pwd && ls -la
+        run: pwd && ls -la .. && ls -la
 #      - name: Change to source directory
 #        run: cd avidemux2
 #      - name: lsla 3
-#        run: pwd && ls -la
+#        run: pwd && ls -la .. && ls -la
       - name: Install build dependencies
         run: bash createDebFromSourceUbuntu.bash --deps-only
       - name: lsla 4
-        run: pwd && ls -la
+        run: pwd && ls -la .. && ls -la
       - name: Build
+# --enable-qt5 : downgrade from default qt6.
         run: bash bootStrap.bash
            # --with-system-libass
       - name: lsla 5
-        run: pwd && ls -la
+        run: pwd && ls -la .. && ls -la
