@@ -6,7 +6,7 @@ jobs:
 #    name: Build (Linux)
     strategy:
       matrix:
-        os: [ubuntu-24.04]
+        os: [ubuntu-22.04]
 #        os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ${{matrix.os}}
     steps:
@@ -16,24 +16,26 @@ jobs:
       - name: Source checkout
         uses: actions/checkout@v4 
         with:
-#          path: avidemux2
           submodules: recursive
 # will need to clone avidemux2_i18n, instead.
           repository: mean00/avidemux2
           ref: 34667ad7467e34f25e5707f01813b36c29063189
       - name: lsla 2
         run: pwd && ls -la .. && ls -la
-#      - name: Change to source directory
-#        run: cd avidemux2
-#      - name: lsla 3
-#        run: pwd && ls -la .. && ls -la
       - name: Install build dependencies
         run: bash createDebFromSourceUbuntu.bash --deps-only
-      - name: lsla 4
+      - name: lsla 3
         run: pwd && ls -la .. && ls -la
       - name: Build
 # --enable-qt5 : downgrade from default qt6.
         run: bash bootStrap.bash
            # --with-system-libass
+# New, "in-tree": buildCli, buildCore, buildPluginsCLI, buildPluginsCommon, buildPluginsQt6, buildPluginsSettings, buildQt6, install.
+      - name: lsla 4
+        run: pwd && ls -la .. && ls -la && ls -laR install/
+      - name: Create an (qt6) appImage for Debian 12/BW and Ubuntu 22.04/JJ
+        run: makeAppImageBookwormMinimal.sh
       - name: lsla 5
-        run: pwd && ls -la .. && ls -la
+        run: pwd && ls -la .. && ls -la && ls -laR install/
+
+# Ajouter un cache, voire l'option rebuild !?
