@@ -6,7 +6,7 @@ jobs:
 #    name: Build (Linux)
     strategy:
       matrix:
-        os: [ubuntu-22.04]
+        os: [ubuntu-24.04]
 #        os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ${{matrix.os}}
     steps:
@@ -34,7 +34,7 @@ jobs:
       - name: lsla 4
         run: pwd && ls -la .. && ls -la && ls -laR install/
       - name: Create an (qt6) appImage for Debian 12/BW and Ubuntu 22.04/JJ
-        run: makeAppImageBookwormMinimal.sh
+        run: makeAppImageBookwormMinimal.sh --rebuild
       - name: lsla 5
         run: pwd && ls -la .. && ls -la && ls -laR install/
 
