@@ -35,18 +35,21 @@ jobs:
           path: |
             build*
             install
-          key: build-${{matrix.os}}-qt5-${{github.sha}}
+          key: build-${{matrix.os}}-qt4-${{github.sha}}
           restore-keys: |
-            build-${{matrix.os}}-qt5-
+            build-${{matrix.os}}-qt4-
       - name: lsla 3 after cache
         run: pwd && ls -la .. && ls -la
       - name: Build
 # --enable-qt5 : downgrade from default qt6.
 # --rebuild
+# 22.04 (qt5) and 24.04 (qt5):
+#     buildQt5:Cmake started...
+# ** Failed at cmake,result in /tmp/logCmakebuildQt5 **
 # 22.04 (qt6):
 #    buildQt6:Build started...
 # ** Failed at make -j 4, result in /tmp/logbuildQt6 **
-        run: bash bootStrap.bash --enable-qt5
+        run: bash bootStrap.bash --enable-qt4
            # --with-system-libass
 # New, "in-tree": buildCli, buildCore, buildPluginsCLI, buildPluginsCommon, buildPluginsQt6, buildPluginsSettings, buildQt6, install.
       - name: lsla 4
@@ -54,7 +57,7 @@ jobs:
       - name: Upload compiled binaries
         uses: actions/upload-artifact@v4
         with:
-          name: avidemux2-usr-${{matrix.os}}-qt5-${{github.sha}}
+          name: avidemux2-usr-${{matrix.os}}-qt4-${{github.sha}}
           path: |
             install/usr
             !install/usr/include
