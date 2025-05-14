@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{matrix.os}}
     steps:
       - name: lsla 1
-        run: pwd && ls -la
+        run: pwd && ls -la .. && ls -la
       - name: Source checkout
         uses: actions/checkout@v4 
 #        with:
@@ -19,10 +19,10 @@ jobs:
 #          submodules: recursive
       - name: lsla 2
         run: pwd && ls -la
-      - name: Change to source directory
-        run: cd avidemux2
-      - name: lsla 3
-        run: pwd && ls -la
+#      - name: Change to source directory
+#        run: cd avidemux2
+#      - name: lsla 3
+#        run: pwd && ls -la
       - name: Install build dependencies
         run: bash createDebFromSourceUbuntu.bash --deps-only
       - name: lsla 4
