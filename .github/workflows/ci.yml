@@ -22,6 +22,12 @@ jobs:
           ref: 34667ad7467e34f25e5707f01813b36c29063189
       - name: lsla 2
         run: pwd && ls -la .. && ls -la
+      - name: Install build dependencies
+        run: bash createDebFromSourceUbuntu.bash --deps-only
+      - name: lsla deps
+        run: ls -la /usr/lib/x86_64-linux-gnu/libvpx*
+      - name: lsla 3
+        run: pwd && ls -la .. && ls -la
       - name: Set up cache
         uses: actions/cache@v4
         with:
@@ -31,22 +37,36 @@ jobs:
           key: build-${{github.sha}}
           restore-keys: |
             build-
-      - name: Install build dependencies
-        run: bash createDebFromSourceUbuntu.bash --deps-only
-      - name: lsla 3
-        run: pwd && ls -la .. && ls -la
       - name: Build
 # --enable-qt5 : downgrade from default qt6.
-        run: bash bootStrap.bash --rebuild
+# --rebuild
+        run: bash bootStrap.bash
            # --with-system-libass
 # New, "in-tree": buildCli, buildCore, buildPluginsCLI, buildPluginsCommon, buildPluginsQt6, buildPluginsSettings, buildQt6, install.
       - name: lsla 4
         run: pwd && ls -la .. && ls -la && ls -laR install/
+      - name: Upload compiled binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: avidemux2-usr-${{github.sha}}
+          path: |
+            install/usr
+            !install/usr/include
       - name: Create an (qt6) appImage for Debian 12/BW and Ubuntu 22.04/JJ
+        if: false
+# --rebuild
         run: |
           chmod u+x ./makeAppImageBookwormMinimal.sh
-          ./makeAppImageBookwormMinimal.sh --rebuild
+          ./makeAppImageBookwormMinimal.sh
       - name: lsla 5
         run: pwd && ls -la .. && ls -la && ls -laR install/
+    - name: Upload appImage
+      if: false
+      uses: actions/upload-artifact@v4
+      with:
+        name: avidemux2-${{github.sha}}.appImage
+        path: |
+          build/bootcd.iso
+          build/livecd.iso
 
 # Ajouter un cache, voire l'option rebuild !?
