@@ -8,7 +8,7 @@ jobs:
 #    name: Build (Linux)
     strategy:
       matrix:
-        os: [ubuntu-24.04]
+        os: [ubuntu-22.04]
 #        os: [ubuntu-22.04, ubuntu-24.04]
 #      fail-fast: false
     runs-on: ${{matrix.os}}
@@ -81,8 +81,14 @@ jobs:
 #         if: false
 # --rebuild
 # 24.04 (qt6):
+#  ** Creating AppImage file **
 # cp: cannot stat '/usr/lib/x86_64-linux-gnu/libvpx.so.7': No such file or directory
 # 24.04 has libvpx.so.9, not expected libvpx.so.7.
+# On Trisquel 11.0.1:
+# $ ll -d /usr/lib/x86_64-linux-gnu/libvpx*
+# lrwxrwxrwx 1 root root      15 juin   5  2024 /usr/lib/x86_64-linux-gnu/libvpx.so.7 -> libvpx.so.7.0.0
+# lrwxrwxrwx 1 root root      15 juin   5  2024 /usr/lib/x86_64-linux-gnu/libvpx.so.7.0 -> libvpx.so.7.0.0
+# -rw-r--r-- 1 root root 3176976 juin   5  2024 /usr/lib/x86_64-linux-gnu/libvpx.so.7.0.0
         run: |
           chmod u+x ./makeAppImageBookwormMinimal.sh
           ./makeAppImageBookwormMinimal.sh
