@@ -10,7 +10,7 @@ jobs:
       matrix:
 #        os: [ubuntu-22.04]
         os: [ubuntu-22.04, ubuntu-24.04]
-#      fail-fast: false
+      fail-fast: false
     runs-on: ${{matrix.os}}
     steps:
       - name: lsla 1
@@ -21,8 +21,8 @@ jobs:
         with:
           submodules: recursive
 # will need to clone avidemux2_i18n, instead.
-          repository: mean00/avidemux2
-          ref: master
+#          repository: mean00/avidemux2
+#          ref: master
       - name: lsla 2
         run: pwd && ls -la .. && ls -la
       - name: Install build dependencies
@@ -56,7 +56,6 @@ jobs:
 #    buildQt6:Build started...
 # ** Failed at make -j 4, result in /tmp/logbuildQt6 **
         run: bash bootStrap.bash --rebuild
-           # --with-system-libass
 # New, "in-tree": buildCli, buildCore, buildPluginsCLI, buildPluginsCommon, buildPluginsQt6, buildPluginsSettings, buildQt6, install.
       - name: lsla 4
         run: pwd && ls -la .. && ls -la && ls -laR install/
