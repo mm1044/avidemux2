@@ -99,11 +99,11 @@ jobs:
         with:
           compression-level: 9 # Compression ratio: 6 = 2.55 :-) # 15326537 -> 15292214, -0,2% :-(
           name: avidemux2-install-${{matrix.os}}-qt6-${{github.sha}}
-# To try, after it runs:            !install/usr/share/
           path: |
             install/
             !install/usr/include/
             install/usr/include/avidemux/*.*/ADM_coreConfig.h
+            !install/usr/share/
       - name: Create an (qt6) appImage for Debian 12/BW and Ubuntu 22.04/JJ
         if: ${{ matrix.os == 'ubuntu-22.04' }} # Building on (newer) 24.04 is not supported (yet).
 # --rebuild
