@@ -97,7 +97,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-22.04' }} # 24.04 does not run on my (older) T 11.
         uses: actions/upload-artifact@v4
         with:
-          compression-level: 9 # Compression ratio: 6 = 2.55 :-) # 15326537 -> 15292214, -0,2% :-(
+          # compression-level: 9 # Compression ratio: 6 = 2.55 :-) # 15326537 -> 15292214, -0,2% :-(
           name: avidemux2-install-${{matrix.os}}-qt6-${{github.sha}}
           path: |
             install/
