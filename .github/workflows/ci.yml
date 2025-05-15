@@ -34,7 +34,7 @@ jobs:
         run: pwd && ls -la .. && ls -la
 # cache + --rebuild: "8" min -> 4.5" min :-)
       - name: Set up cache
-        if: false # To re-enable _after_ build is fixed.
+        if: false # To re-enable _after_ build is fixed. # But appImage overwrites(!?) install, not good for caching !!? (split into 2 caches, and/or only run 1 of them !!?)
         uses: actions/cache@v4
         with:
           path: |
@@ -81,7 +81,7 @@ jobs:
 # It "misses" (my build or by design?):
 # Audio: Faad2 decoder
 # Video Decoder: AV1 ['AV1 (libaom)' added to Video Encoder...]
-# Audio Encoders: FDK AAC encoder, Faac AAC encoder
+# Audio Encoders: FDK AAC encoder, Faac AAC encoder [These are present in appImage (only).]
 # Muxers: MP4V2 muxer
 # Then (24.04 build can't run on Trisquel 11 (U 22.04) [GLIBC 2.35, QT 6.2 !??, ...] !!)
 # .../avidemux2-dev/install/usr/bin/avidemux3_qt6: /lib/x86_64-linux-gnu/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/tqme/Downloads/avidemux2-dev/install/usr/bin/avidemux3_qt6)
@@ -97,7 +97,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-22.04' }} # 24.04 does not run on my (older) T 11.
         uses: actions/upload-artifact@v4
         with:
-          # compression-level: 9 # 15326537 -> 15292214, -0,2% :-(
+          compression-level: 9 # Compression ratio: 6 = 2.55 :-) # 15326537 -> 15292214, -0,2% :-(
           name: avidemux2-install-${{matrix.os}}-qt6-${{github.sha}}
 # To try, after it runs:            !install/usr/share/
           path: |
@@ -145,6 +145,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-22.04' }}
         uses: actions/upload-artifact@v4
         with:
+          compression-level: 0 # Compression ratio: 6 = 1.01 :-(
           name: avidemux2-${{matrix.os}}-qt6-${{github.sha}}.appImage
           path: avidemuxLinux_GLIBC_2.36_amd64_??????_????.app
 
