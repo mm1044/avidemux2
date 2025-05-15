@@ -93,6 +93,7 @@ jobs:
 # .../avidemux2-dev/install/usr/bin/avidemux3_qt6: /lib/x86_64-linux-gnu/libQt6Core.so.6: version `Qt_6.4' not found (required by /home/tqme/Downloads/avidemux2-dev/install/usr/lib/x86_64-linux-gnu/libADM_openGLQT66.so)
 # $ sudo apt remove libqt6openglwidgets6
       - name: Upload compiled binaries
+        if: ${{ matrix.os == 'ubuntu-22.04' }} # 24.04 does not run on my (older) T 11.
         uses: actions/upload-artifact@v4
         with:
           # compression-level: 9 # 15326537 -> 15292214, -0,2% :-(
@@ -103,17 +104,20 @@ jobs:
             !install/usr/include/
             install/usr/include/avidemux/*.*/ADM_coreConfig.h
       - name: Create an (qt6) appImage for Debian 12/BW and Ubuntu 22.04/JJ
-        if: ${{ matrix.os == 'ubuntu-22.04' }}
+        if: ${{ matrix.os == 'ubuntu-22.04' }} # Building on (newer) 24.04 is not supported (yet).
 # --rebuild
 
 # 22.04 (qt6):
 #  ** Creating AppImage file **
 # cp: cannot stat '/usr/lib/x86_64-linux-gnu/libx264.so.164': No such file or directory
+# From appImage/deployBookwormMinimal.sh
 
+# 24.04 has it.
+
+# 22.04 has libx264.so.163, not expected libx264.so.164.
 # On Trisquel 11.0.1:
 # $ ll /usr/lib/x86_64-linux-gnu/libx264.so*
 # -rw-r--r-- 1 root root 1863256 mars   7  2022 /usr/lib/x86_64-linux-gnu/libx264.so.163
-
 
 # 24.04 (qt6):
 #  ** Creating AppImage file **
@@ -123,12 +127,12 @@ jobs:
 # 24.04 has libvpx.so.9, not expected libvpx.so.7.
 
 # 22.04 has it.
-
 # On Trisquel 11.0.1:
 # $ ll -d /usr/lib/x86_64-linux-gnu/libvpx*
 # lrwxrwxrwx 1 root root      15 juin   5  2024 /usr/lib/x86_64-linux-gnu/libvpx.so.7 -> libvpx.so.7.0.0
 # lrwxrwxrwx 1 root root      15 juin   5  2024 /usr/lib/x86_64-linux-gnu/libvpx.so.7.0 -> libvpx.so.7.0.0
 # -rw-r--r-- 1 root root 3176976 juin   5  2024 /usr/lib/x86_64-linux-gnu/libvpx.so.7.0.0
+
 # $ ldd --version
 # ldd (Ubuntu GLIBC 2.35-0ubuntu3.9+11.0trisquel1) 2.35
         run: |
@@ -137,12 +141,10 @@ jobs:
       - name: lsla 5
         run: pwd && ls -la .. && ls -la && ls -laR install/
       - name: Upload appImage
-        if: false
-#        if: ${{ matrix.os == 'ubuntu-22.04' }}
+        if: ${{ matrix.os == 'ubuntu-22.04' }}
         uses: actions/upload-artifact@v4
         with:
           name: avidemux2-${{matrix.os}}-qt6-${{github.sha}}.appImage
-          path: |
-            WhichFile
+          path: avidemuxLinux_GLIBC_2.36_amd64_??????_????.app
 
 # Ajouter un cache (voire ccache !?), voire l'option rebuild !?
