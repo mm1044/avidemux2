@@ -98,7 +98,8 @@ libvorbis.so.0 \
 libvorbisenc.so.2 \
 libogg.so.0"
 
-VIDEO_PLUGINS="libx264.so.164 \
+# Downgrade for U 22.04.
+VIDEO_PLUGINS="libx264.so.163 \
 libx265.so.199 \
 libxvidcore.so.4 \
 libvpx.so.7 \
