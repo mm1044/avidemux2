@@ -37,6 +37,7 @@ external_libmp4v2=0
 
 fail() {
   echo -e "${RED}** Failed at $1 **${ENDCOLOR}"
+  cat $2
   exit 1
 }
 
@@ -91,7 +92,7 @@ Process() {
     "$SOURCEDIR" >&/tmp/logCmake$BASE || fail "cmake,result in /tmp/logCmake$BASE"
   $ADATE
   echo "   $BASE:Build started..."
-  ${MAKER} >&/tmp/log$BASE || fail "${MAKER}, result in /tmp/log$BASE"
+  ${MAKER} >&/tmp/log$BASE || fail "${MAKER}, result in /tmp/log$BASE" "/tmp/log$BASE"
   if [ "x$PKG" != "x" ]; then
     DESTDIR="${FAKEROOT_DIR}/tmp" $FAKEROOT_COMMAND ${MAKER} package || fail "packaging"
   fi
