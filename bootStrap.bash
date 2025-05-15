@@ -23,7 +23,9 @@ default_install_prefix="/usr"
 qt_ext=Qt6
 QT_FLAVOR="-DENABLE_QT6=True"
 COMPILER=""
-export PATH="$PATH:/usr/lib/qt6/bin:/usr/lib/qt6/libexec"
+# Does not seem to help (enough)...
+export PATH="$PATH:/usr/lib/qt6/bin"
+# 22.04: Fixes it! 24.04: Unneeded...
 echo QTDIR 1: "${QTDIR}"
 if [ -z "${QTDIR}" ]; then
     export QTDIR="/usr/lib/qt6"
