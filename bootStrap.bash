@@ -24,6 +24,11 @@ qt_ext=Qt6
 QT_FLAVOR="-DENABLE_QT6=True"
 COMPILER=""
 export PATH="$PATH:/usr/lib/qt6/bin:/usr/lib/qt6/libexec"
+echo QTDIR 1: "${QTDIR}"
+if [ -z "${QTDIR}" ]; then
+    export QTDIR="/usr/lib/qt6"
+fi
+echo QTDIR 2: "${QTDIR}"
 export QT_SELECT=qt6 # default for ubuntu, harmless for others
 install_prefix="$default_install_prefix"
 # -lc is required to build libADM_ae_lav* audio encoder plugins on 32 bit ubuntu
