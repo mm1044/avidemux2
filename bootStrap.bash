@@ -95,7 +95,7 @@ Process() {
     $ASAN \
     $DEBUG \
     -G "$BUILDER" \
-    "$SOURCEDIR" >&/tmp/logCmake$BASE || fail "cmake,result in /tmp/logCmake$BASE"
+    "$SOURCEDIR" >&/tmp/logCmake$BASE || fail "cmake,result in /tmp/logCmake$BASE" "/tmp/logCmake$BASE"
   $ADATE
   echo "   $BASE:Build started..."
   ${MAKER} >&/tmp/log$BASE || fail "${MAKER}, result in /tmp/log$BASE" "/tmp/log$BASE"
