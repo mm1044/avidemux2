@@ -31,6 +31,7 @@ jobs:
         run: ls -la /usr/lib/x86_64-linux-gnu/libvpx*
       - name: lsla 3
         run: pwd && ls -la .. && ls -la
+# cache + --rebuild: "8" min -> 4.5" min :-)
       - name: Set up cache
         uses: actions/cache@v4
         with:
@@ -77,7 +78,7 @@ jobs:
             !install/usr/include/
             install/usr/include/avidemux/*.*/ADM_coreConfig.h
       - name: Create an (qt6) appImage for Debian 12/BW and Ubuntu 22.04/JJ
-        if: false
+#         if: false
 # --rebuild
 # 24.04 (qt6):
 # cp: cannot stat '/usr/lib/x86_64-linux-gnu/libvpx.so.7': No such file or directory
@@ -96,4 +97,4 @@ jobs:
             build/bootcd.iso
             build/livecd.iso
 
-# Ajouter un cache, voire l'option rebuild !?
+# Ajouter un cache (voire ccache !?), voire l'option rebuild !?
