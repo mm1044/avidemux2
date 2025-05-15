@@ -54,7 +54,7 @@ jobs:
 # 22.04 (qt6):
 #    buildQt6:Build started...
 # ** Failed at make -j 4, result in /tmp/logbuildQt6 **
-        run: bash bootStrap.bash
+        run: bash bootStrap.bash --rebuild
            # --with-system-libass
 # New, "in-tree": buildCli, buildCore, buildPluginsCLI, buildPluginsCommon, buildPluginsQt6, buildPluginsSettings, buildQt6, install.
       - name: lsla 4
@@ -69,7 +69,7 @@ jobs:
       - name: Upload compiled binaries
         uses: actions/upload-artifact@v4
         with:
-          compression-level: 9
+          # compression-level: 9 # 15326537 -> 15292214, -0,2% :-(
           name: avidemux2-install-${{matrix.os}}-qt6-${{github.sha}}
 # To try, after it runs:            !install/usr/share/
           path: |
