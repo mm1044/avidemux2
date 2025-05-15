@@ -34,6 +34,7 @@ jobs:
         run: pwd && ls -la .. && ls -la
 # cache + --rebuild: "8" min -> 4.5" min :-)
       - name: Set up cache
+        if: false # To re-enable _after_ build is fixed.
         uses: actions/cache@v4
         with:
           path: |
@@ -64,7 +65,7 @@ jobs:
 # +
 # make[1]: Leaving directory '/home/runner/work/avidemux2/avidemux2/buildQt6'
 # make: *** [Makefile:139: all] Error 2
-        run: bash bootStrap.bash --rebuild
+        run: bash bootStrap.bash
 # New, "in-tree": buildCli, buildCore, buildPluginsCLI, buildPluginsCommon, buildPluginsQt6, buildPluginsSettings, buildQt6, install.
       - name: lsla 4
         run: pwd && ls -la .. && ls -la && ls -laR install/
